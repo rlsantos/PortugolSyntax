@@ -1,0 +1,19 @@
+{
+	"schema_version": "1.0",
+	"packages": [
+		{
+			"name": "Porugol Syntax",
+			"author": "rlsantos",
+			"description": "Syntax highlighting and comment keyboard for Portugol (Manzano) code",
+			"homepage": "https://github.com/rlsantos/PortugolSyntax",
+			"platforms": {
+				"*": [
+					{
+						"version": "1.0",
+						"url": "https://nodeload.github.com/rlsantos/PortugolSyntax/zip/1.0"
+					}
+				]
+			}
+		}
+	]
+}
