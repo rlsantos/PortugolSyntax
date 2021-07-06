@@ -1,0 +1,106 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/syntax.html
+# author: Ricardo Luis dos Santos
+# personal webpage:  http://www.ricardoluis.com
+
+name: Portugol (Manzano)
+file_extensions:
+  - portugol
+  - ptg
+  - ptgol
+scope: source.portugol
+
+contexts:
+  main:
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character
+    - match: '"'
+      scope: punctuation.definition.string.begin.portugol
+      push: double_quoted_string
+
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character
+    - match: "'"
+      scope: punctuation.definition.string.begin.portugol
+      push: single_quoted_string
+
+    # Comments begin with a '{' and finish with '}'
+    - match: "{"
+      scope: punctuation.definition.comment.portugol
+      push:
+        - meta_scope: comment.line.number-sign.portugol
+        - match: "}"
+          pop: true
+
+    # Numbers
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.portugol
+
+    # boolean
+    - match: \.V\.|\.F\.|\.Verdadeiro\.|\.Falso\.
+      scope: constant.language.portugol
+
+
+    # var
+    - match: \b(\ :\ |\ de\ )\b
+      scope: keyword.control.portugol
+      set: [builtin-types]
+
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+    - match: (?x)\b(?:var|início|fim|escreva|leia|se|então|senão|
+                const|fim_se|caso|seja|faça|fim_caso|enquanto|
+                fim_enquanto|até_seja|efetue|fim_até_seja|repita|
+                até_que|execute|enquanto_for|laço|saia_caso|fim_laço|
+                para|de|até|passo|fim_para|enquanto)\b
+      scope: keyword.control.portugol
+
+    # operators
+    - match: <\=|>\=|\=|<|>|<>
+      scope: keyword.operator.comparison.portugol
+    - match: \+|\-|\*|/|div|mod|←|↑
+      scope: keyword.operator.arithmetic.portugol
+    - match: \.e\.|\.não\.|\.ou\.|\.xou\.|\.oue\.
+      comment: keyword operators that evaluate to True or False
+      scope: keyword.operator.logical.portugol
+    - match: ','
+      scope: punctuation.separator.sequence.portugol
+
+    # programa
+    - match: \b(programa|procedimento)\b
+      scope: keyword.control.portugol
+      set: [name]
+
+  double_quoted_string:
+    - meta_scope: string.quoted.double.portugol
+    - match: '\\.'
+      scope: constant.character.escape.portugol
+    - match: '"'
+      scope: punctuation.definition.string.end.portugol
+      pop: true
+
+  single_quoted_string:
+    - meta_scope: string.quoted.single.portugol
+    - match: '\\.'
+      scope: constant.character.escape.portugol
+    - match: "'"
+      scope: punctuation.definition.string.end.portugol
+      pop: true
+
+  builtin-types:
+    - match: |-
+        (?x)\b(?:
+          inteiro|real|lógico|caractere|cadeia|
+          conjunto|
+        )\b
+      scope: support.type.portugol
+      pop: true
+
+  name:
+    - match: \b[A-Za-z_][A-Za-z_0-9]*\b
+      scope: entity.name.type
+      pop: true
